@@ -1,9 +1,14 @@
+import 'package:moneymanagementapp/screens/transactions_Page.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
+
 import '../utilities/cardDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../utilities/cardview.dart';
 import '../utilities/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:moneymanagementapp/services/AddCategory.dart';
 
 
 class LoadingScreen extends StatefulWidget {
@@ -18,8 +23,6 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
   ScrollController scrollController2;
   var cardIndex = 0;
   var currentColor = Color(0xffE8816D);
-  var cardsList = [CardItemModel("Food & Restaurants", Icons.fastfood, 9, 0.83),CardItemModel("Shopping", Icons.shop, 12, 0.24),CardItemModel("Entertainment", Icons.movie, 7, 0.32)];
-  var incomeList =[CardItemModel("Gift Vouchers", Icons.wallet_giftcard, 9, 0.83),CardItemModel("Salary", Icons.money, 9, 0.83),];
   AnimationController animationController;
   AnimationController animationController2;
 
@@ -45,6 +48,22 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
           ),
         ],
         elevation: 0.0,
+      ),
+      floatingActionButton: new FloatingActionButton(
+        child: Icon(Icons.category, color: Color(0xffE8616D),),
+        backgroundColor: Color(0xffFFC0A4),
+        onPressed:(){
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (context)=> SingleChildScrollView(
+                child: Container(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddCategory(),
+                ),
+            ),
+          );
+          },
       ),
       backgroundColor: Color(0xffE8816D),
       body: SafeArea(
@@ -86,11 +105,38 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                 height: 250,
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: cardsList.length,
+                  itemCount: Provider.of<CardData>(context, listen: true).cardsList.length,
                   controller: scrollController,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, position) {
-                    return ;
+                    return GestureDetector(
+                      onTap: (){
+                        print("hello world");
+                        Navigator.pushNamed(context, TransactionsScreen.id);
+                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8, bottom: 8.0, top: 8.0),
+                        child: Card(
+                          child: CardDetails(cardList: Provider.of<CardData>(context, listen: true).cardsList, position: position,),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                        ),
+                      ),
+                      onHorizontalDragEnd: (details) {
+                        animationController = AnimationController(duration: Duration(milliseconds: 500), vsync: this,);
+                        if(details.velocity.pixelsPerSecond.dx > 0 && cardIndex>0) {
+                          cardIndex--;
+                        }
+                        else if(cardIndex<Provider.of<CardData>(context,listen: false).cardsList.length){
+                          cardIndex++;
+                        }
+                        setState(() {
+                          scrollController.animateTo((cardIndex)*256.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+                        });
+                        animationController.forward( );
+                      },
+                    );
                   },
                 ),
               ),
@@ -99,16 +145,19 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                 height: 250,
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: incomeList.length,
+                  itemCount: Provider.of<CardData>(context, listen: true).incomeList.length,
                   controller: scrollController2,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, position) {
                     return GestureDetector(
-                      onTap: (){print("hello world");},
+                      onTap: (){
+                        print("hello world");
+                        Navigator.pushNamed(context, TransactionsScreen.id);
+                        },
                       child: Padding(
                         padding: const EdgeInsets.only(right:8.0, bottom: 8.0, top: 8.0),
                         child: Card(
-                          child: CardDetails(cardsList: incomeList, position: position,),
+                          child: CardDetails(cardList: Provider.of<CardData>(context, listen: true).incomeList, position: position,),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)
                           ),
@@ -122,7 +171,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                         if(details.velocity.pixelsPerSecond.dx > 0 && cardIndex>0) {
                           cardIndex--;
                         }
-                        else if(cardIndex<2){
+                        else if(cardIndex<Provider.of<CardData>(context,listen: false).incomeList.length){
                           cardIndex++;
                         }
                         setState(() {
@@ -143,28 +192,3 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
   }
 }
 
-//GestureDetector(
-//onTap: (){print("hello world");},
-//child: Padding(
-//padding: const EdgeInsets.only(right: 8, bottom: 8.0, top: 8.0),
-//child: Card(
-//child: CardDetails(cardsList: cardsList, position: position,),
-//shape: RoundedRectangleBorder(
-//borderRadius: BorderRadius.circular(10.0)
-//),
-//),
-//),
-//onHorizontalDragEnd: (details) {
-//animationController = AnimationController(duration: Duration(milliseconds: 500), vsync: this,);
-//if(details.velocity.pixelsPerSecond.dx > 0 && cardIndex>0) {
-//cardIndex--;
-//}
-//else if(cardIndex<2){
-//cardIndex++;
-//}
-//setState(() {
-//scrollController.animateTo((cardIndex)*256.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
-//});
-//animationController.forward( );
-//},
-//);

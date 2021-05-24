@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
+import 'package:provider/provider.dart';
 import 'cardview.dart';
 import 'constants.dart';
 class CardDetails extends StatelessWidget {
   const CardDetails({
     Key key,
-    @required this.cardsList,
+    @required this.cardList,
     this.position,
   });
 
-  final List<CardItemModel> cardsList;
+  final List<CardItemModel> cardList;
   final int position;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +20,7 @@ class CardDetails extends StatelessWidget {
         color: Colors.white,
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: new NetworkImage(imageUrls[position%cardsList.length])
+          image: new NetworkImage(imageUrls[position%(imageUrls.length)])
         ),
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
@@ -32,7 +33,7 @@ class CardDetails extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Icon(cardsList[position].icon, color: Color(0xffE8816D)),
+                Icon(cardList[position].icon, color: Color(0xffE8816D)),
                 Icon(Icons.more_vert, color: Colors.grey,),
               ],
             ),
@@ -44,15 +45,15 @@ class CardDetails extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Text("${cardsList[position].tasksRemaining} Items", style: TextStyle(color: Colors.grey),),
+                  child: Text("${cardList[position].transactions} Transactions", style: TextStyle(color: Colors.grey),),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Text("${cardsList[position].cardTitle}", style: kcardcategoryTypeStyle,),
+                  child: Text("${cardList[position].cardTitle}", style: kcardcategoryTypeStyle,),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: LinearProgressIndicator(value: cardsList[position].taskCompletion,),
+                  child: LinearProgressIndicator(value: cardList[position].taskCompletion,),
                 ),
               ],
             ),

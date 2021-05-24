@@ -52,5 +52,26 @@ const List<String> imageUrls = [
   "https://www.ventureinsights.com.au/wp-content/uploads/2021/03/1.jpg",
   "https://wallpapercave.com/wp/uCZRN5a.jpg",
   "https://www.lucova.com/blog/wp-content/uploads/2015/06/mobile-pay.jpg",
+  //"https://www.lucova.com/blog/wp-content/uploads/2015/06/mobile-pay.jpg",
   "https://g.foolcdn.com/image/?url=https%3A//g.foolcdn.com/editorial/images/552424/gettyimages-515778474.jpg&w=2000&op=resize"
 ];
+
+const kTextFieldDecoration =InputDecoration(
+  hintStyle: TextStyle(color: Colors.grey),
+  contentPadding:
+  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+  ),
+
+);
+
+final TextStyle kdropDownTextStyle = GoogleFonts.kaushanScript(textStyle: TextStyle(fontSize: 30));
