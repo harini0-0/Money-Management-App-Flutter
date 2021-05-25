@@ -13,6 +13,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   google_fonts: ^1.1.2
   provider: ^4.3.3
+  hive: ^1.4.1+1
+  flutter_cupertino_date_picker: ^1.0.26+2
   hive_flutter: ^0.2.1
   path_provider: ^1.3.0
 

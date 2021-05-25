@@ -1,6 +1,9 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
+
+const itemBoxName ="transactions";
+const catBoxName = "category";
 final BoxDecoration kcardHolderStyle = BoxDecoration(
   image: DecorationImage(
     fit: BoxFit.cover,
@@ -74,4 +77,4 @@ const kTextFieldDecoration =InputDecoration(
 
 );
 
-final TextStyle kdropDownTextStyle = GoogleFonts.kaushanScript(textStyle: TextStyle(fontSize: 30));
+final TextStyle kdropDownTextStyle = GoogleFonts.kaushanScript(textStyle: TextStyle(fontSize: 30, color: Colors.white));

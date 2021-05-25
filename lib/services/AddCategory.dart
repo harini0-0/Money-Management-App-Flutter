@@ -36,14 +36,14 @@ class _AddCategoryState extends State<AddCategory> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Transaction Type: ", style: GoogleFonts.libreBaskerville(textStyle: TextStyle(fontSize: 20)),),
+                Text("Transaction Type: ", style: GoogleFonts.libreBaskerville(textStyle: TextStyle(fontSize: 20, color: Colors.white)),),
                 SizedBox(width: 20,),
                 DropdownButton(
                     items: <String>["Expense","Incomes"]
                         .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value, style: GoogleFonts.libreBaskerville(textStyle: TextStyle(fontSize: 20)),),
+                            child: Text(value, style: GoogleFonts.libreBaskerville(textStyle: TextStyle(fontSize: 20, color: Colors.brown)),),
                           );
                         }).toList(),
                   value: dropdownValue,
@@ -64,7 +64,7 @@ class _AddCategoryState extends State<AddCategory> {
             SizedBox(height: 20,),
             FlatButton(
                   onPressed: (){
-                    print(categoryTitle.toString());
+                    print("this: ${categoryTitle.toString()}");
                     Provider.of<CardData>(context, listen: false).addToList("$categoryTitle", (dropdownValue == "Expense"? true : false));
                     Navigator.pop(context);
                     },

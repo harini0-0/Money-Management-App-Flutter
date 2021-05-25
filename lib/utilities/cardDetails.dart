@@ -3,13 +3,15 @@ import 'package:moneymanagementapp/services/Card_Data.dart';
 import 'package:provider/provider.dart';
 import 'cardview.dart';
 import 'constants.dart';
+import 'package:moneymanagementapp/services/EditCategory.dart';
+
 class CardDetails extends StatelessWidget {
-  const CardDetails({
-    Key key,
+  CardDetails({
     @required this.cardList,
     this.position,
+    this.deleteCallback,
   });
-
+  final Function deleteCallback;
   final List<CardItemModel> cardList;
   final int position;
   @override
@@ -34,7 +36,32 @@ class CardDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Icon(cardList[position].icon, color: Color(0xffE8816D)),
-                Icon(Icons.more_vert, color: Colors.grey,),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap:(){
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context)=> SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              child: Container(
+                                height: 330,
+                                child: EditCategory(position: position, prevName: cardList[position].cardTitle,),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.edit, color: Colors.redAccent,),
+                    ),
+                    GestureDetector(
+                        onTap: (){
+                          deleteCallback(cardList[position].cardTitle, position);
+                        },child: Icon(Icons.delete, color: Colors.red,)),
+                  ],
+                ),
               ],
             ),
           ),
