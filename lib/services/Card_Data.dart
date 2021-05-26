@@ -52,10 +52,10 @@ class CardData extends ChangeNotifier {
       notifyListeners();
     }
   }
-  void listGetterExpense(String categoryName){
-    CardItemModel adder = CardItemModel(categoryName, Icons.dashboard_customize, 0, 0);
-    cardsList.add(adder);
-    notifyListeners();
+  void listGetterExpense(Item item){
+    var boxTrans = Hive.box(itemBoxName);
+    boxTrans.put(item.transName, item);
+    print("${boxTrans.get(item.transName)}:  ${boxTrans.get(item.transName).transName} -- ${boxTrans.length}");
   }
   void listGetterIncomes(String categoryName){
     CardItemModel adder = CardItemModel(categoryName, Icons.dashboard_customize, 0, 0);
