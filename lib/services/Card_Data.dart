@@ -18,16 +18,16 @@ class CardData extends ChangeNotifier {
     if(transType ==true){
       print("hi1");
       CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Expense");
-      boxTrans.put(categoryName, item2);
-      print(boxTrans.get(categoryName));
+      boxTrans.put(item2.categoryName, item2);
+      print(boxTrans.get(item2.categoryName));
       //cardsList.add(adder);
-      print("hi2");
+      //print("hi2");
       notifyListeners();
     }
     else {
       CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Incomes");
-      boxTrans.put(categoryName, item2);
-      incomeList.add(adder);
+      boxTrans.put(item2.categoryName, item2);
+      //incomeList.add(adder);
       notifyListeners();
     }
   }

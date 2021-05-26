@@ -121,7 +121,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                           onTap: () async {
                             await Navigator.push(context,
                                 MaterialPageRoute(builder: (context){
-                              return TransactionsScreen(category: categoryBox.values.toList()[position],);
+                              return TransactionsScreen(category: categoryBox.get(Provider.of<CardData>(context,listen: false).cardsList[position].cardTitle),);
                             }));
                             //Provider.of<CardData>(context,listen: false).cardsList[position] = newModel;
                           },
@@ -191,8 +191,12 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                           }
                         }
                         return GestureDetector(
-                          onTap: (){
-                            Navigator.pushNamed(context, TransactionsScreen.id);
+                          onTap: () async {
+                            await Navigator.push(context,
+                                MaterialPageRoute(builder: (context){
+                                  return TransactionsScreen(category: categoryBox.get(Provider.of<CardData>(context,listen: false).incomeList[position].cardTitle),);
+                                }));
+                            //Provider.of<CardData>(context,listen: false).cardsList[position] = newModel;
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8, bottom: 8.0, top: 8.0),
