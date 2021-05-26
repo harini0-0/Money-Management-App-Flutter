@@ -3,11 +3,12 @@ import 'package:hive/hive.dart';
 import 'package:moneymanagementapp/utilities/cardview.dart';
 import 'package:moneymanagementapp/utilities/constants.dart';
 import 'package:moneymanagementapp/modals/categoryItems.dart';
-
+import 'package:moneymanagementapp/modals/transactionItems.dart';
 
 //var boxTrans = Hive.openBox(catBoxName);
 
 class CardData extends ChangeNotifier {
+  List<Item> transList =[];
   List<CardItemModel> cardsList = [];
   List<CardItemModel> incomeList =[];
 

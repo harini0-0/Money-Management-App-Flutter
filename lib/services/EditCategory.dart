@@ -6,7 +6,8 @@ import 'Card_Data.dart';
 class EditCategory extends StatefulWidget {
   final int position;
   final String prevName;
-  EditCategory({this.position, this.prevName});
+  final String cat;
+  EditCategory({this.position, this.prevName, this.cat});
   @override
   _EditCategoryState createState() => new _EditCategoryState();
 }
@@ -68,7 +69,7 @@ class _EditCategoryState extends State<EditCategory> {
             FlatButton(
                   onPressed: (){
                     print("this: ${categoryTitle.toString()}");
-                    Provider.of<CardData>(context, listen: false).editToList("$categoryTitle", (dropdownValue == "Expense"? true : false), widget.position, widget.prevName);
+                    Provider.of<CardData>(context, listen: false).editToList("$categoryTitle", (widget.cat == "Expense"? true : false), widget.position, widget.prevName);
                     Navigator.pop(context);
                     },
                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),

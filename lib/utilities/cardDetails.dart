@@ -10,7 +10,9 @@ class CardDetails extends StatelessWidget {
     @required this.cardList,
     this.position,
     this.deleteCallback,
+    this.cat,
   });
+  final cat;
   final Function deleteCallback;
   final List<CardItemModel> cardList;
   final int position;
@@ -48,7 +50,7 @@ class CardDetails extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                               child: Container(
                                 height: 330,
-                                child: EditCategory(position: position, prevName: cardList[position].cardTitle,),
+                                child: EditCategory(cat: cat, position: position, prevName: cardList[position].cardTitle,),
                               ),
                             ),
                           ),

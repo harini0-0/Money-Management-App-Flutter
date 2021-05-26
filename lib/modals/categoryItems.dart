@@ -11,7 +11,7 @@ class CategoryItem extends HiveObject{
   String categoryName;    //Categories such as Food, Shopping, etc..
   @HiveField(2)
   double amount;          //Amount spent or gained by this Transaction
-  @HiveField(4)
+  @HiveField(3)
   int quantity;      //Transaction Date
 
   CategoryItem({this.transactionType="", this.categoryName="", this.amount=0, this.quantity=0});

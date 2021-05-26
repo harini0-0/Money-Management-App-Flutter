@@ -106,7 +106,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                       controller: scrollController,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, position) {
-                        print("reached");
+                        print(totlength);
                         //CategoryItem category = categoryBox.getAt(position);
                         //List<CardItemModel> cardsList =[];
                         for(int i=0;i<categoryBox.length;i++){
@@ -119,7 +119,8 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
 
                         return GestureDetector(
                           onTap: () async {
-                            CardItemModel newModel = await Navigator.push(context, MaterialPageRoute(builder: (context){
+                            await Navigator.push(context,
+                                MaterialPageRoute(builder: (context){
                               return TransactionsScreen(category: categoryBox.values.toList()[position],);
                             }));
                             //Provider.of<CardData>(context,listen: false).cardsList[position] = newModel;
@@ -176,10 +177,10 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                       physics: NeverScrollableScrollPhysics(),
                       //itemCount: Provider.of<CardData>(context, listen: true).cardsList.length,
                       itemCount: totlength,
-                      controller: scrollController,
+                      controller: scrollController2,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, position) {
-                        print("reached");
+                        print("reached $totlength");
                         //CategoryItem category = categoryBox.getAt(position);
                         //List<CardItemModel> cardsList =[];
                         for(int i=0;i<categoryBox.length;i++){
@@ -202,14 +203,16 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                                 deleteCallback: (String categoryName, int position){
                                   categoryBox.deleteAt(position);
                                   Provider.of<CardData>(context,listen: false).incomeList.remove(Provider.of<CardData>(context,listen: false).incomeList[position]);
-                                },),
+                                },
+                                cat: "Incomes",
+                              ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)
                               ),
                             ),
                           ),
                           onHorizontalDragEnd: (details) {
-                            animationController = AnimationController(duration: Duration(milliseconds: 500), vsync: this,);
+                            animationController2 = AnimationController(duration: Duration(milliseconds: 500), vsync: this,);
                             if(details.velocity.pixelsPerSecond.dx > 0 && cardIndex>0) {
                               cardIndex--;
                             }
@@ -217,9 +220,9 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                               cardIndex++;
                             }
                             setState(() {
-                              scrollController.animateTo((cardIndex)*256.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+                              scrollController2.animateTo((cardIndex)*256.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
                             });
-                            animationController.forward( );
+                            animationController2.forward( );
                           },
                         );
                       },

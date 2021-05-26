@@ -15,9 +15,9 @@ import 'services/Card_Data.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
   Hive.registerAdapter(ItemAdapter());
   Hive.registerAdapter(CategoryItemAdapter());
+  Hive.init(appDocumentDir.path);
 //  var hiveDb = Directory('${appDocumentDir.path}/chosenPath');
 //  hiveDb.delete(recursive: true);
   return  runApp(MyApp());
