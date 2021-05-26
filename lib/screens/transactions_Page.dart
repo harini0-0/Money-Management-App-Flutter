@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moneymanagementapp/modals/categoryItems.dart';
 import 'package:hive/hive.dart';
+import 'package:moneymanagementapp/modals/transactionItems.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
+import 'package:moneymanagementapp/utilities/cardDetails.dart';
 import 'package:moneymanagementapp/utilities/constants.dart';
 import 'package:moneymanagementapp/services/AddTransaction.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:moneymanagementapp/utilities/transDetails.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsScreen extends StatefulWidget {
   static String id = "transactionsPage";
@@ -55,13 +60,32 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     child: WatchBoxBuilder(
                     box: Hive.box(itemBoxName),
                     builder: (context, categoryBox){
+                      int totlength=0;
                       for(int i=0;i<categoryBox.length;i++){
-
+                        Item item = categoryBox.getAt(i);
+                        if(item.categoryName==widget.category.categoryName){
+                          totlength++;
+                        }
                       }
+                      print("tot: $totlength");
                       return ListView.builder(
-                        itemCount: 2,
+                        itemCount: totlength,
                         itemBuilder: (context, position) {
-                          return Card();
+                          Provider.of<CardData>(context).transList.clear();
+                          for(int i=0;i<categoryBox.length;i++){
+                            Item item = categoryBox.getAt(i);
+                            if(item.categoryName==widget.category.categoryName){
+                              Provider.of<CardData>(context).addToTransList(item);
+                            }
+                          }
+                          print("list length: ${Provider.of<CardData>(context).transList.length}");
+                          return Card(
+                            color: Color(0xffE8816D),
+                            child: TransDetails(
+                              transList: Provider.of<CardData>(context).transList,
+                              position: position,
+                            ),
+                          );
                         },
                       );
                     }

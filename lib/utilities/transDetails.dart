@@ -9,7 +9,8 @@ class TransDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      height: 100,
       child: Column(
         children: <Widget>[
           ListTile(

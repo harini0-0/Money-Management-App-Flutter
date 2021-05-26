@@ -62,6 +62,9 @@ class CardData extends ChangeNotifier {
     incomeList.add(adder);
     notifyListeners();
   }
+  void addToTransList(Item item){
+    transList.add(item);
+  }
 }
 
 
