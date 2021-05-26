@@ -84,6 +84,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                             child: TransDetails(
                               transList: Provider.of<CardData>(context).transList,
                               position: position,
+                              deleteTransCallBack: (String transName, int position){
+                                  categoryBox.delete(transName);
+                                  Provider.of<CardData>(context,listen: false).incomeList.remove(Provider.of<CardData>(context,listen: false).incomeList[position]);
+                                },
                             ),
                           );
                         },

@@ -3,9 +3,10 @@ import 'package:moneymanagementapp/modals/transactionItems.dart';
 
 
 class TransDetails extends StatelessWidget {
-  TransDetails({this.transList, this.position});
+  TransDetails({this.transList, this.position, this.deleteTransCallBack});
   final int position;
   final List<Item> transList ;
+  final Function deleteTransCallBack;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,13 +15,26 @@ class TransDetails extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text("${transList[position].transName}"),
-            trailing: Text("${transList[position].amount}"),
+            title: Text(
+              "${transList[position].transName}",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+            ),
+            trailing: Text(
+              "Rs ${transList[position].amount}",
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${transList[position].dateTime}"),
-              GestureDetector(child: Icon(Icons.delete,color: Colors.red,),)
+              Text(
+                "Date: ${transList[position].dateTime.day}-${transList[position].dateTime.month}-${transList[position].dateTime.year}",
+                style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+              ),
+              GestureDetector(
+                onTap: (){deleteTransCallBack(transList[position].transName, position);},
+                child: Icon(Icons.delete,color: Colors.red,),
+              )
             ],
           ),
         ],
