@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:moneymanagementapp/utilities/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'Card_Data.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:moneymanagementapp/utilities/constants.dart';
+
+
 class AddCategory extends StatefulWidget {
   @override
   _AddCategoryState createState() => new _AddCategoryState();
@@ -15,7 +17,6 @@ class _AddCategoryState extends State<AddCategory> {
     super.initState();
     dropdownValue = "Expense";
   }
-
   @override
   Widget build(BuildContext context) {
     String categoryTitle;
@@ -23,10 +24,7 @@ class _AddCategoryState extends State<AddCategory> {
       color: Color(0xff6A3B33),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        decoration: BoxDecoration(
-          color: Color(0xff303030),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
+        decoration: kcontainerDeco,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,14 +55,12 @@ class _AddCategoryState extends State<AddCategory> {
             ),
             SizedBox(height: 20,),
             TextField(
-              onChanged: (value){categoryTitle = value;
-              print(categoryTitle);},
+              onChanged: (value){categoryTitle = value;},
               decoration: kTextFieldDecoration.copyWith(hintText: 'Enter new Category',),
             ),
             SizedBox(height: 20,),
             FlatButton(
                   onPressed: (){
-                    print("this: ${categoryTitle.toString()}");
                     Provider.of<CardData>(context, listen: false).addToList("$categoryTitle", (dropdownValue == "Expense"? true : false));
                     Navigator.pop(context);
                     },

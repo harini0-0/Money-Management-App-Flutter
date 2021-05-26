@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-//import 'package:flutter/material.dart';
 part 'transactionItems.g.dart';
 
 @HiveType(typeId:0)

@@ -1,13 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moneymanagementapp/modals/transactionItems.dart';
 import 'package:moneymanagementapp/services/Card_Data.dart';
-//import 'package:moneymanagementapp/services/Trans_Data.dart';
 import 'package:moneymanagementapp/utilities/constants.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
-//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:provider/provider.dart';
 
 class AddTransaction extends StatefulWidget {
   AddTransaction({this.categoryName, this.transactionType});
@@ -47,8 +43,7 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
             Text("New TransactionDetails", style: kdropDownTextStyle.copyWith(decoration: TextDecoration.underline),),
             SizedBox(height: 50,),
             TextField(
-              onChanged: (value){transTitle = "$value";
-              print(transTitle);},
+              onChanged: (value){transTitle = "$value";},
               decoration: kTextFieldDecoration.copyWith(
                   hintText: 'Enter new Transaction',
                   hintStyle: TextStyle(color: Colors.black54),
@@ -56,17 +51,13 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
             ),
             SizedBox(height: 30),
             TextField(
-              onChanged: (value){
-                transAmount = double.parse("$value");
-                print(transAmount);
-              },
+              onChanged: (value){transAmount = double.parse("$value");},
               keyboardType: TextInputType.number,
               decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter Amount',
                 hintStyle: TextStyle(color: Colors.black54),
               ),
             ),
-
             SizedBox(height: 30),
             Text("${transDate.day}-${transDate.month}-${transDate.year}",
               style: GoogleFonts.kaushanScript(textStyle: TextStyle(fontSize: 30)),
@@ -77,8 +68,7 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
             ),
             FlatButton(
                 onPressed: (){
-                  Provider.of<CardData>(context, listen: false).listGetterExpense(
-                    Item(
+                  Provider.of<CardData>(context, listen: false).listGetterExpense(Item(
                       transactionType: widget.transactionType,
                       categoryName: widget.categoryName,
                       amount: transAmount,
@@ -95,26 +85,3 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
     );
   }
 }
-//
-//class DateSelector extends StatefulWidget {
-//  @override
-//  _DateSelectorState createState() => _DateSelectorState();
-//}
-//
-//class _DateSelectorState extends State<DateSelector> {
-//  _DateSelectorState({this.transDate});
-//  DateTime transDate;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//      child: DatePickerWidget(
-//        onChange: (value, int){
-//          transDate=value;
-//          print(transDate);
-//        },
-//        onCancel: (){Navigator.pop(this.context);},
-//      ),
-//    );
-//  }
-//}

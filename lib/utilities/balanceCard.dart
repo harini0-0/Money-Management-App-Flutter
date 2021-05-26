@@ -1,11 +1,9 @@
 import 'constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
 
 class BalanceCard extends StatelessWidget {
-  const BalanceCard({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +16,6 @@ class BalanceCard extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Card Holder",
@@ -28,7 +25,7 @@ class BalanceCard extends StatelessWidget {
               Text("Balance",
                 style: kcardBalanceHeadingTextStyle,
               ),
-              Text("23000", style: TextStyle(color: Colors.black54, fontSize: 20,),),
+              Text("${Provider.of<CardData>(context).counter}", style: TextStyle(color: Colors.black54, fontSize: 20,),),
             ],
           ),
           Icon(Icons.account_circle, color: Colors.white,size: 120,)

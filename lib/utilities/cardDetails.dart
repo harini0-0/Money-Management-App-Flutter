@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:moneymanagementapp/services/Card_Data.dart';
-import 'package:provider/provider.dart';
 import 'cardview.dart';
 import 'constants.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
 import 'package:moneymanagementapp/services/EditCategory.dart';
 
 class CardDetails extends StatelessWidget {
@@ -60,6 +60,7 @@ class CardDetails extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: (){
+                          Provider.of<CardData>(context, listen: false).deleteSameCategoryItems(cardList[position].cardTitle);
                           deleteCallback(cardList[position].cardTitle, position);
                         },child: Icon(Icons.delete, color: Colors.red,)),
                   ],

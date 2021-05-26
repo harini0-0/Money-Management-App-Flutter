@@ -18,18 +18,14 @@ void main() async{
   Hive.registerAdapter(ItemAdapter());
   Hive.registerAdapter(CategoryItemAdapter());
   Hive.init(appDocumentDir.path);
-//  var hiveDb = Directory('${appDocumentDir.path}/chosenPath');
-//  hiveDb.delete(recursive: true);
+  Hive.openBox("TotalAmount");
   return  runApp(MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
-
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -37,6 +33,7 @@ class _MyAppState extends State<MyApp> {
     Hive.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -45,7 +42,6 @@ class _MyAppState extends State<MyApp> {
         title: 'Flutter Demo',
         home : FutureBuilder(
           future: Hive.openBox(catBoxName,),
-              //keyComparator: (dynamic k1, dynamic k2) => 1),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
@@ -62,11 +58,6 @@ class _MyAppState extends State<MyApp> {
               );
           },
         ),
-//      initialRoute: LoadingScreen.id,
-//        routes: {
-//          LoadingScreen.id: (context)=> LoadingScreen(),
-//          TransactionsScreen.id: (context)=>TransactionsScreen(),
-//        },
       ),
     );
   }

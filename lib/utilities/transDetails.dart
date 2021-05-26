@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanagementapp/modals/transactionItems.dart';
 
-
 class TransDetails extends StatelessWidget {
   TransDetails({this.transList, this.position, this.deleteTransCallBack});
   final int position;

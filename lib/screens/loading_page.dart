@@ -1,18 +1,15 @@
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:moneymanagementapp/modals/categoryItems.dart';
-import 'package:moneymanagementapp/screens/transactions_Page.dart';
-import 'package:moneymanagementapp/services/Card_Data.dart';
-import 'package:moneymanagementapp/utilities/cardview.dart';
-import 'package:moneymanagementapp/utilities/balanceCard.dart';
-import '../utilities/cardDetails.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import '../utilities/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
-import 'package:moneymanagementapp/services/AddCategory.dart';
 import 'transactions_Page.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
+import 'package:moneymanagementapp/utilities/constants.dart';
+import 'package:moneymanagementapp/utilities/cardview.dart';
+import 'package:moneymanagementapp/utilities/AddCategoryFAB.dart';
+import 'package:moneymanagementapp/utilities/balanceCard.dart';
+import 'package:moneymanagementapp/utilities/cardDetails.dart';
+import 'package:moneymanagementapp/modals/categoryItems.dart';
 
 List<Box> itemsBox = [];
 class LoadingScreen extends StatefulWidget {
@@ -26,13 +23,10 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
   ScrollController scrollController;
   ScrollController scrollController2;
   var cardIndex = 0;
-  var currentColor = Color(0xffE8816D);
   AnimationController animationController;
   AnimationController animationController2;
 
-  //Hive inits
   Future<List<Box>> _openBox() async {
-    print("reached open box");
     await Hive.openBox(itemBoxName);
     return itemsBox;
   }
@@ -43,6 +37,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
     scrollController2= new ScrollController();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,29 +48,12 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: GestureDetector(
-              child: Icon(Icons.account_circle),
-            ),
+            child: GestureDetector(child: Icon(Icons.account_circle),),
           ),
         ],
         elevation: 0.0,
       ),
-      floatingActionButton: new FloatingActionButton(
-        child: Icon(Icons.category, color: Color(0xffE8616D),),
-        backgroundColor: Color(0xffFFC0A4),
-        onPressed:(){
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context)=> SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: AddCategory(),
-                ),
-            ),
-          );
-          },
-      ),
+      floatingActionButton: AddCategoryFAB(),
       backgroundColor: Color(0xffE8816D),
 
       body: SafeArea(
@@ -93,6 +71,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                   box: Hive.box(catBoxName),
                   builder: (context, categoryBox){
                     int totlength=0;
+                    Provider.of<CardData>(context).refresh();
                   for(int i=0;i<categoryBox.length;i++){
                     CategoryItem category = categoryBox.values.toList()[i];
                     if(category.transactionType == "Expense"){
@@ -101,14 +80,10 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                   }
                     return ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      //itemCount: Provider.of<CardData>(context, listen: true).cardsList.length,
                       itemCount: totlength,
                       controller: scrollController,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, position) {
-                        print(totlength);
-                        //CategoryItem category = categoryBox.getAt(position);
-                        //List<CardItemModel> cardsList =[];
                         for(int i=0;i<categoryBox.length;i++){
                           CategoryItem category = categoryBox.values.toList()[i];
                           if(category.transactionType == "Expense"){
@@ -132,7 +107,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                                 cardList: Provider.of<CardData>(context,listen: false).cardsList,
                                 position: position,
                                 deleteCallback: (String categoryName, int position){
-                                  categoryBox.deleteAt(position);
+                                  categoryBox.delete(categoryName);
                                   Provider.of<CardData>(context,listen: false).cardsList.remove(Provider.of<CardData>(context,listen: false).cardsList[position]);
                                 },),
                               shape: RoundedRectangleBorder(
@@ -180,9 +155,6 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                       controller: scrollController2,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, position) {
-                        print("reached $totlength");
-                        //CategoryItem category = categoryBox.getAt(position);
-                        //List<CardItemModel> cardsList =[];
                         for(int i=0;i<categoryBox.length;i++){
                           CategoryItem category = categoryBox.values.toList()[i];
                           if(category.transactionType == "Incomes"){
@@ -205,8 +177,8 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                                 cardList: Provider.of<CardData>(context,listen: false).incomeList,
                                 position: position,
                                 deleteCallback: (String categoryName, int position){
-                                  categoryBox.deleteAt(position);
                                   Provider.of<CardData>(context,listen: false).incomeList.remove(Provider.of<CardData>(context,listen: false).incomeList[position]);
+                                  categoryBox.delete(categoryName);
                                 },
                                 cat: "Incomes",
                               ),
@@ -238,67 +210,6 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
           ),
         ),
       ),
-      drawer: Drawer(),
     );
   }
 }
-
-
-
-
-
-//deleted code
-
-//              Container(
-//                height: 250,
-//                    child: ListView.builder(
-//                      physics: NeverScrollableScrollPhysics(),
-//                      itemCount: Provider.of<CardData>(context, listen: true).incomeList.length,
-//                      controller: scrollController2,
-//                      scrollDirection: Axis.horizontal,
-//                      itemBuilder: (context, position) {
-//                        return GestureDetector(
-//                          onTap: (){
-//                            print("hello world");
-//                            Navigator.pushNamed(context, TransactionsScreen.id);
-//                            },
-//                          child: Padding(
-//                            padding: const EdgeInsets.only(right:8.0, bottom: 8.0, top: 8.0),
-//                            child: Card(
-//                              child: CardDetails(
-//                                cardList: Provider.of<CardData>(context, listen: true).incomeList,
-//                                position: position,
-//                                deleteCallback: (String categoryname, int position){
-//                                  Provider.of<CardData>(context).deletefromList(categoryname, position);
-//                                },
-//                              ),
-//                              shape: RoundedRectangleBorder(
-//                                  borderRadius: BorderRadius.circular(10.0)
-//                              ),
-//                            ),
-//                          ),
-//                          onHorizontalDragEnd: (details) {
-//                            animationController2 = AnimationController(
-//                              duration: Duration(milliseconds: 500),
-//                              vsync: this,
-//                            );
-//                            if(details.velocity.pixelsPerSecond.dx > 0 && cardIndex>0) {
-//                              cardIndex--;
-//                            }
-//                            else if(cardIndex<Provider.of<CardData>(context,listen: false).incomeList.length){
-//                              cardIndex++;
-//                            }
-//                            setState(() {
-//                              scrollController2.animateTo((cardIndex)*256.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
-//                            });
-//                            animationController2.forward();
-//                          },
-//                        );
-//                      },
-//                    ),
-//                  ),
-
-
-//    CategoryItem item1 = CategoryItem(categoryName: "Food & Restaurants", transactionType: "Expense");
-//    CategoryItem item2 = CategoryItem(categoryName: "Shopping", transactionType: "Expense");
-//    CategoryItem item3 = CategoryItem(categoryName: "Entertainment", transactionType: "Expense");

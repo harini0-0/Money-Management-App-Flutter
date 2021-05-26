@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 
 const itemBoxName ="transactions";
 const catBoxName = "category";
+
+final BoxDecoration kcontainerDeco = BoxDecoration(
+  color: Color(0xff303030),
+  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+);
+
 final BoxDecoration kcardHolderStyle = BoxDecoration(
   image: DecorationImage(
     fit: BoxFit.cover,
     image: AssetImage("images/cardbg2.png"),
-    //image: new NetworkImage("https://digitalsynopsis.com/wp-content/uploads/2017/07/beautiful-color-ui-gradients-backgrounds-roseanna.png")
   ),
   color: Colors.white,
   borderRadius: BorderRadius.circular(20),
@@ -55,7 +60,6 @@ const List<String> imageUrls = [
   "https://www.ventureinsights.com.au/wp-content/uploads/2021/03/1.jpg",
   "https://wallpapercave.com/wp/uCZRN5a.jpg",
   "https://www.lucova.com/blog/wp-content/uploads/2015/06/mobile-pay.jpg",
-  //"https://www.lucova.com/blog/wp-content/uploads/2015/06/mobile-pay.jpg",
   "https://g.foolcdn.com/image/?url=https%3A//g.foolcdn.com/editorial/images/552424/gettyimages-515778474.jpg&w=2000&op=resize"
 ];
 
