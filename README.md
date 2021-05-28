@@ -1,6 +1,6 @@
 # Money Management App
 
-A new Flutter application based on a wallet app, which includes hive db and provider State Management
+A new Flutter application based on a wallet app, which includes hive db and provider State Management <br>
 Drive link for Demo Video: - https://drive.google.com/file/d/1JvVK2abGw4D0utfq8ytT7Q3t8jsyjJ1N/view?usp=sharing
 ## Demo Video & Explanation
 
