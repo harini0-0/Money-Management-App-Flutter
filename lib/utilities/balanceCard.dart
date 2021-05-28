@@ -65,9 +65,11 @@ class _BalanceCardState extends State<BalanceCard> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Card Holder",
-                  style: kcardHolderNameTextStyle,
+                Center(
+                  child: Text(
+                    "Harini T",
+                    style: kcardHolderNameTextStyle,
+                  ),
                 ),
                 SizedBox(height: 20,),
                 Text("Balance",

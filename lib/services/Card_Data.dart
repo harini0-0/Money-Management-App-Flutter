@@ -62,7 +62,7 @@ class CardData extends ChangeNotifier {
       if(item2.transactionType=="Expense") {
         total -= item2.amount;
         expense+= item2.amount;
-        print("exp-$expense");
+        print("exp-${item2.amount}");
       }
       else{
         total+=item2.amount;
@@ -70,13 +70,13 @@ class CardData extends ChangeNotifier {
         print("inc -$income");
       }
     }
-    if(expense<0)
-      expense*=-1;
-    if(income<0)
-      income*=-1;
-    total = expense-income;
-    if(total<0)
-      total*=-1;
+//    if(expense<0)
+//      expense*=-1;
+//    if(income<0)
+//      income*=-1;
+    //total = expense-income;
+//    if(total<0)
+//      total*=-1;
     totalAmount+=total;
     totalExpense=expense;
     totalIncome=income;
@@ -168,12 +168,11 @@ class CardData extends ChangeNotifier {
     var boxTrans = Hive.box(itemBoxName);
     var boxCat = Hive.box(catBoxName);
     CategoryItem item2 =boxCat.get(item.categoryName);
-    if(totalAmount<item.amount)
-
     item2.amount += item.amount;
     item2.quantity += 1;
+    item2.save();
     boxTrans.put(item.transName, item);
-    boxCat.put(item2.categoryName, item2);
+//    boxCat.put(item2.categoryName, item2);
     refresh();
     notifyListeners();
   }
