@@ -1,4 +1,4 @@
-# moneymanagementapp
+# Money Management App
 
 A new Flutter application based on a wallet app, which includes hive db and provider State Management
 
