@@ -2,7 +2,7 @@
 
 A new Flutter application based on a wallet app, which includes hive db and provider State Management
 
-##Demo Video & Explanation
+## Demo Video & Explanation
 
 https://user-images.githubusercontent.com/66105380/120023172-0e2dfc00-c00b-11eb-87b5-71ba98a7dd9d.mp4
 
@@ -42,10 +42,10 @@ https://user-images.githubusercontent.com/66105380/120023172-0e2dfc00-c00b-11eb-
 - User input for Balance in Cardholder
 - Login/SignUp Page
 
-##List of Known Bugs
+## List of Known Bugs
 - Error while editing the category name with many items
 
-##References Used
+## References Used
 - https://stackoverflow.com
 - https://pub.dev/packages
 - https://resocoder.com/2019/09/30/hive-flutter-tutorial-lightweight-fast-database/
@@ -53,7 +53,7 @@ https://user-images.githubusercontent.com/66105380/120023172-0e2dfc00-c00b-11eb-
 - https://github.com
 - https://flutter.dev/docs
 
-##Operating System
+## Operating System
 Windows 10, Android Studio
 
 
