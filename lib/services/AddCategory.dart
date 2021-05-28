@@ -1,3 +1,5 @@
+import 'package:moneymanagementapp/utilities/cardview.dart';
+
 import 'Card_Data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +65,7 @@ class _AddCategoryState extends State<AddCategory> {
             FlatButton(
                   onPressed: (){
                     print("$categoryTitle");
+                    //Provider.of<CardData>(context, listen: false).cardsList.add((CardItemModel(categoryTitle ,Icons.dashboard_customize, 0,0.0 )));
                     Provider.of<CardData>(context, listen: false).addToList("$categoryTitle", (dropdownValue == "Expense"? true : false));
                     Navigator.pop(context);
                     },

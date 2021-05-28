@@ -73,6 +73,8 @@ class StatData {
 final List<int> expenseData = [];
 final List<StatData> incomeData = [];
 Map<int, double> chart1= new Map();
+Map<int, double> chart2= new Map();
+Map<int, String> months= {1:'Jan', 2:"Feb", 3:"Mar", 4:"Apr", 5:"May", 6:"Jun", 7:"Jul", 8:"Aug", 9:"Sept", 10:"Oct", 11:"Nov", 12:"Dec"};
 
 const kTextFieldDecoration =InputDecoration(
   hintStyle: TextStyle(color: Colors.grey),

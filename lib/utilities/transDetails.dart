@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneymanagementapp/modals/transactionItems.dart';
+import 'package:moneymanagementapp/services/Card_Data.dart';
+import 'package:provider/provider.dart';
 
 class TransDetails extends StatelessWidget {
   TransDetails({this.transList, this.position, this.deleteTransCallBack});
@@ -31,7 +33,11 @@ class TransDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
               ),
               GestureDetector(
-                onTap: (){print(position);deleteTransCallBack(transList[position].transName, position);},
+                onTap: (){
+                  print(position);
+                  deleteTransCallBack(transList[position].transName, position);
+                  Provider.of<CardData>(context,listen: false).getAllData();
+                  },
                 child: Icon(Icons.delete,color: Colors.red,),
               )
             ],

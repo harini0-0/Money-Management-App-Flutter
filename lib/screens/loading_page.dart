@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'transactions_Page.dart';
@@ -15,7 +13,6 @@ import 'package:moneymanagementapp/utilities/balanceCard.dart';
 import 'package:moneymanagementapp/utilities/cardDetails.dart';
 import 'package:moneymanagementapp/modals/categoryItems.dart';
 
-List<Box> itemsBox = [];
 class LoadingScreen extends StatefulWidget {
   static String id="mainPage";
   @override
@@ -32,8 +29,8 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
 
   Future<List<Box>> _openBox() async {
     await Hive.openBox(itemBoxName);
-    //Hive.box(itemBoxName).clear();
-    return itemsBox;
+    Provider.of<CardData>(context, listen: false).getAllData();
+    // Hive.box(itemBoxName).clear();
   }
   @override
   void initState() {

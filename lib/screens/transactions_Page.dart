@@ -13,7 +13,7 @@ import 'package:moneymanagementapp/services/Card_Data.dart';
 class TransactionsScreen extends StatefulWidget {
   static String id = "transactionsPage";
   final CategoryItem category;
-  TransactionsScreen({this.category});
+  TransactionsScreen({this.category });
 
   @override
   _TransactionsScreenState createState() => _TransactionsScreenState();
@@ -35,7 +35,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                 backgroundColor: Colors.black,
                 title: Center(child: Text(widget.category.categoryName, style: GoogleFonts.kaushanScript(textStyle: TextStyle(color: Color(0xffE8816D), fontSize: 40)),)),
               ),
-              backgroundColor: Colors.black12,
+              backgroundColor: Colors.black,
               floatingActionButton: AddTransactionFAB(widget: widget),
               body: SafeArea(
                   child: Padding(
@@ -67,8 +67,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               position: position,
                               deleteTransCallBack: (String transName, int position){
                                   Provider.of<CardData>(context, listen:false).deduction(categoryBox.get(transName));
+                                  print("deleting transaction $transName");
                                   categoryBox.delete(transName);
-                                  print("reached");
+                                  print("deleting transaction ${categoryBox.get(transName)}");
+                                  Provider.of<CardData>(context, listen:false).displayData();
                                 },
                             ),
                           );

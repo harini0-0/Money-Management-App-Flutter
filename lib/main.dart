@@ -20,8 +20,8 @@ void main() async{
   Hive.registerAdapter(CategoryItemAdapter());
   Hive.init(appDocumentDir.path);
   Hive.openBox("TotalAmount");
-  print("hhi");
-  Hive.deleteFromDisk();
+  //print("hhi");
+  //Hive.deleteFromDisk();
   return  runApp(MyApp());
 }
 
@@ -31,6 +31,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Future<List<Box>> _openBox() async {
+    await Hive.openBox(itemBoxName);
+    //Hive.box(itemBoxName).clear();
+  }
+  @override
+  void initState(){
+    _openBox();
+    super.initState();
+  }
   @override
   void dispose() {
     var boxTrans = Hive.box("TotalAmount");

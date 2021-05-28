@@ -69,13 +69,14 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
             SizedBox(height: 25,),
             FlatButton(
               onPressed: (){
-                Provider.of<CardData>(context, listen: false).listGetterExpense(Item(
+                Provider.of<CardData>(context, listen: false).addNewTransaction(Item(
                     transactionType: widget.transactionType,
                     categoryName: widget.categoryName,
                     amount: transAmount,
                     dateTime: transDate,
                     transName: transTitle,
                   ));
+                Provider.of<CardData>(context, listen: false).getAllData();
                 Navigator.pop(context);
               },
               color: Colors.grey,

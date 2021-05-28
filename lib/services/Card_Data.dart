@@ -9,16 +9,14 @@ class CardData extends ChangeNotifier {
   static double totalAmount;
   static double totalExpense;
   static double totalIncome;
-  static Map<int, double> chart2={};
   List<Item> transList =[];
   List<CardItemModel> cardsList = [];
   List<CardItemModel> incomeList =[];
   double get counter => totalAmount;
   double get expCounter => totalExpense;
   double get inmCounter => totalIncome;
-  Map<int, double> get charter => chart2;
   void refresh(){
-    print("print");
+    print("refreshed");
     var boxTrans = Hive.box("TotalAmount");
     var boxCat = Hive.box(catBoxName);
     //boxTrans.put("Amount",25000.0);
@@ -31,51 +29,66 @@ class CardData extends ChangeNotifier {
       if(item2.transactionType=="Expense") {
         total -= item2.amount;
         expense+= item2.amount;
-        print("expense: ${item2.amount}");
       }
       else{
         total+=item2.amount;
         income+=item2.amount;
-        print("income: $income");
       }
     }
     totalAmount+=total;
     totalExpense=expense;
     totalIncome=income;
     //getAllData();
+    displayData();
   }
-//  void getAllData()async{
-//    var boxTrans = await Hive.openBox(itemBoxName);
+  void getAllData(){
+    var boxTrans = Hive.box(itemBoxName);
 //    expenseData.clear();
 //    incomeData.clear();
-//    for(int i=0;i<boxTrans.length;i++){
-//      Item item = boxTrans.getAt(i);
-//      if(item.transactionType=="Expense") {
-//        int date =(item.dateTime.month*1000)+ item.dateTime.year;
-//        print("this amt :$date- ${item.amount}");
-//        double value = chart1[date] ;
-//        //chart1.remove(date);
-//        if(chart1.isNotEmpty == false)
-//          chart1[date] = (item.amount);
-//        else
-//          chart1[date] = (item.amount)+value;
-//        //expenseData.add();
-//        print("this amt :$date- ${chart1[date]}");
-//      }
-//      else{
-//        //incomeData.add(StatData("${item.dateTime.month}-${item.dateTime.year}", (item.amount/totalIncome)*100.0));
-//      }
-//    }
-//  }
+    chart1.clear();
+    for(int i=0;i<boxTrans.length;i++){
+      Item item = boxTrans.getAt(i);
+      int date =(item.dateTime.month*10000)+ item.dateTime.year;
+      if(item.transactionType=="Expense") {
+        print("this amt :$date- ${item.dateTime.month}");
+        double value = chart1[date] ;
+        if(value!=null)
+          chart1[date] = (item.amount)+value;
+        else
+          chart1[date] = (item.amount);
+      print(chart1);
+      }
+      else{
+        double value = chart2[date] ;
+        if(value!=null)
+          chart2[date] = (item.amount)+value;
+        else
+          chart2[date] = (item.amount);
+      }
+    }
+  }
+  void displayData(){
+    var boxTrans = Hive.box(catBoxName);
+
+    for(int i=0;i<boxTrans.length;i++){
+      CategoryItem item2 = boxTrans.getAt(i);
+      print("${item2.transactionType}-${item2.categoryName}-${item2.amount}-${item2.quantity}");
+    }
+    if(Hive.isBoxOpen(itemBoxName)){
+      var boxCat = Hive.box(itemBoxName);
+      for(int i=0;i<boxCat.length;i++){
+        Item item2 =boxCat.getAt(i);
+        print("${item2.categoryName}-${item2.transactionType}-${item2.transName}-${item2.amount}");
+      }
+    }
+  }
   void addToList(String categoryName, bool transType) {
     var boxTrans = Hive.box(catBoxName);
     if(transType ==true){
       CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Expense");
-      print("got in: ${item2.categoryName}");
+      print("adding to List: ${item2.categoryName}");
       //cardsList.add(CardItemModel(item2.categoryName, Icons.dashboard_customize,0 ,0));
       boxTrans.put(item2.categoryName, item2);
-      //boxTrans.delete(categoryName);
-      //boxTrans.put(categoryName, item2);
       print(boxTrans.get(item2.categoryName).categoryName);
       notifyListeners();
     }
@@ -104,26 +117,30 @@ class CardData extends ChangeNotifier {
       incomeList[position]=adder;
       boxTrans.delete(previousName);
       notifyListeners();
+
     }
   }
-  void listGetterExpense(Item item){
+  void addNewTransaction(Item item){
     var boxTrans = Hive.box(itemBoxName);
     var boxCat = Hive.box(catBoxName);
-    boxCat.get(item.categoryName).amount += item.amount;
-    boxCat.get(item.categoryName).quantity += 1;
+    CategoryItem item2 =boxCat.get(item.categoryName);
+    item2.amount += item.amount;
+    item2.quantity += 1;
     boxTrans.put(item.transName, item);
+    boxCat.put(item2.categoryName, item2);
     refresh();
     notifyListeners();
   }
   void addToTransList(Item item){
     transList.add(item);
+    print("Translist refresh action: ${item.amount}");
   }
   void deduction(Item item){
-    print("here");
     var boxCat = Hive.box(catBoxName);
-    boxCat.get(item.categoryName).amount -= item.amount;
-    boxCat.get(item.categoryName).quantity -= 1;
-    print("amt: ${boxCat.get(item.categoryName).amount}");
+    CategoryItem hello=boxCat.get(item.categoryName);
+    hello.amount= hello.amount - item.amount;
+    hello.quantity = hello.quantity -1;
+    hello.save();
     refresh();
   }
   void deleteSameCategoryItems(String categoryName){
@@ -141,3 +158,39 @@ class CardData extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+
+//dirty code
+//deduction func
+//    print("deduction happening");
+//    print("before deduction amt of categ: ${boxCat.get(item.categoryName).amount}");
+//double nowamt =boxCat.get(item.categoryName).amount;
+//    nowamt -=item.amount;
+//    int qty = boxCat.get(item.categoryName).quantity -1 ;
+//    boxCat.put(item.categoryName, CategoryItem(transactionType: item.transactionType, categoryName: item.categoryName, amount: nowamt, quantity: qty));
+//    boxCat.get(item.categoryName).amount -= item.amount;
+//    boxCat.get(item.categoryName).quantity -= 1;
+//print("after deduction amt of categ: ${boxCat.get(item.categoryName).amount}");
+
+//editToList
+//    var boxTrans = Hive.box(catBoxName);
+//    var boxCat = Hive.box(itemBoxName);
+//    CategoryItem item = boxTrans.get(previousName);
+//    CardItemModel adder = CardItemModel(categoryName, Icons.dashboard_customize, 0, 0);
+//    item.categoryName=categoryName;
+//    item.save();
+//    for(int i=0;i<boxCat.length;i++){
+////      CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Expense");
+////      boxTrans.put(categoryName, item2);
+////      boxTrans.delete(previousName);
+//      if(position!=null)
+//        cardsList[position]=adder;
+//      notifyListeners();
+//
+//    if {
+//      CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Incomes");
+//      boxTrans.put(categoryName, item2);
+//      incomeList[position]=adder;
+//      boxTrans.delete(previousName);
+//      notifyListeners();
+//    }
