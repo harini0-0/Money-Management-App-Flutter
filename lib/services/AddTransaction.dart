@@ -66,18 +66,22 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
               onPressed: () => _selectDate(context),
               child: Text('Select date'),
             ),
+            SizedBox(height: 25,),
             FlatButton(
-                onPressed: (){
-                  Provider.of<CardData>(context, listen: false).listGetterExpense(Item(
-                      transactionType: widget.transactionType,
-                      categoryName: widget.categoryName,
-                      amount: transAmount,
-                      dateTime: transDate,
-                      transName: transTitle,
-                    ));
-                  Navigator.pop(context);
-                },
-                child: Text("Add Transaction"),
+              onPressed: (){
+                Provider.of<CardData>(context, listen: false).listGetterExpense(Item(
+                    transactionType: widget.transactionType,
+                    categoryName: widget.categoryName,
+                    amount: transAmount,
+                    dateTime: transDate,
+                    transName: transTitle,
+                  ));
+                Navigator.pop(context);
+              },
+              color: Colors.grey,
+              //style: ButtonStyle(side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
+              child: Text("Add Transaction", style: TextStyle(fontSize: 20),),
+
             )
           ],
         ),

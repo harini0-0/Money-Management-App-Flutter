@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'cardview.dart';
 import 'constants.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class CardDetails extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap:(){
+                        print("cat: $cat");
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -73,10 +76,6 @@ class CardDetails extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Text("${cardList[position].transactions} Transactions", style: TextStyle(color: Colors.grey),),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                   child: Text("${cardList[position].cardTitle}", style: kcardcategoryTypeStyle,),

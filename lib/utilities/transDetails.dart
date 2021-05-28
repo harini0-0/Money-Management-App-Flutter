@@ -31,7 +31,7 @@ class TransDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
               ),
               GestureDetector(
-                onTap: (){deleteTransCallBack(transList[position].transName, position);},
+                onTap: (){print(position);deleteTransCallBack(transList[position].transName, position);},
                 child: Icon(Icons.delete,color: Colors.red,),
               )
             ],

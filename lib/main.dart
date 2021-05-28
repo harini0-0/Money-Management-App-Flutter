@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:moneymanagementapp/screens/Statistics_Page.dart';
 import 'package:moneymanagementapp/screens/loading_page.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -19,6 +20,8 @@ void main() async{
   Hive.registerAdapter(CategoryItemAdapter());
   Hive.init(appDocumentDir.path);
   Hive.openBox("TotalAmount");
+  print("hhi");
+  Hive.deleteFromDisk();
   return  runApp(MyApp());
 }
 
@@ -30,6 +33,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
+    var boxTrans = Hive.box("TotalAmount");
+    boxTrans.put("Amount",Provider.of<CardData>(context).counter);
     Hive.close();
     super.dispose();
   }
@@ -48,8 +53,11 @@ class _MyAppState extends State<MyApp> {
                 print("reached build");
                 return Text(snapshot.error.toString());
               }
-              else
+              else {
+                //Hive.box(catBoxName).clear();
+                Provider.of<CardData>(context, listen: false).refresh();
                 return LoadingScreen();
+              }
             } else
               return Scaffold(
                 body: Center(

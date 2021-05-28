@@ -63,6 +63,17 @@ const List<String> imageUrls = [
   "https://g.foolcdn.com/image/?url=https%3A//g.foolcdn.com/editorial/images/552424/gettyimages-515778474.jpg&w=2000&op=resize"
 ];
 
+const List steps =["Statistics","Exit App"];
+
+class StatData {
+  StatData(this.date, this.percent);
+  final String date;
+  final double percent;
+}
+final List<int> expenseData = [];
+final List<StatData> incomeData = [];
+Map<int, double> chart1= new Map();
+
 const kTextFieldDecoration =InputDecoration(
   hintStyle: TextStyle(color: Colors.grey),
   contentPadding:

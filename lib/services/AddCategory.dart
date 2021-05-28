@@ -55,12 +55,14 @@ class _AddCategoryState extends State<AddCategory> {
             ),
             SizedBox(height: 20,),
             TextField(
+              style: TextStyle(color: Colors.white, fontSize: 20),
               onChanged: (value){categoryTitle = value;},
-              decoration: kTextFieldDecoration.copyWith(hintText: 'Enter new Category',),
+              decoration: kTextFieldDecoration.copyWith(hintText: 'Enter new Category', ),
             ),
             SizedBox(height: 20,),
             FlatButton(
                   onPressed: (){
+                    print("$categoryTitle");
                     Provider.of<CardData>(context, listen: false).addToList("$categoryTitle", (dropdownValue == "Expense"? true : false));
                     Navigator.pop(context);
                     },

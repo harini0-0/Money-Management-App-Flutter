@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'transactions_Page.dart';
+import 'Statistics_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -28,6 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
 
   Future<List<Box>> _openBox() async {
     await Hive.openBox(itemBoxName);
+    //Hive.box(itemBoxName).clear();
     return itemsBox;
   }
   @override
@@ -48,7 +53,30 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: GestureDetector(child: Icon(Icons.account_circle),),
+            child: PopupMenuButton(
+              //initialValue: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              color: Colors.grey,
+              offset: Offset(0,50),
+              child: Icon(Icons.graphic_eq_outlined, size: 35,),
+              onSelected: (int index){
+                if(index ==0){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>StatisticScreen()));
+                }
+                else if(index==1){
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  //exit(0);
+                }
+              },
+              itemBuilder: (context){
+                return List.generate(2, (index) {
+                  return PopupMenuItem(
+                    value: index,
+                    child: Text("${steps[index]}", style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),),
+                );
+                });
+              },
+            ),
           ),
         ],
         elevation: 0.0,
@@ -71,7 +99,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                   box: Hive.box(catBoxName),
                   builder: (context, categoryBox){
                     int totlength=0;
-                    Provider.of<CardData>(context).refresh();
+                    //Provider.of<CardData>(context).refresh();
                   for(int i=0;i<categoryBox.length;i++){
                     CategoryItem category = categoryBox.values.toList()[i];
                     if(category.transactionType == "Expense"){
@@ -106,9 +134,11 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                               child: CardDetails(
                                 cardList: Provider.of<CardData>(context,listen: false).cardsList,
                                 position: position,
+                                cat: "Expense",
                                 deleteCallback: (String categoryName, int position){
                                   categoryBox.delete(categoryName);
                                   Provider.of<CardData>(context,listen: false).cardsList.remove(Provider.of<CardData>(context,listen: false).cardsList[position]);
+                                  Provider.of<CardData>(context ,listen: false).refresh();
                                 },),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)
@@ -179,6 +209,7 @@ class _LoadingScreenState extends State<LoadingScreen> with TickerProviderStateM
                                 deleteCallback: (String categoryName, int position){
                                   Provider.of<CardData>(context,listen: false).incomeList.remove(Provider.of<CardData>(context,listen: false).incomeList[position]);
                                   categoryBox.delete(categoryName);
+                                  Provider.of<CardData>(context ,listen: false).refresh();
                                 },
                                 cat: "Incomes",
                               ),

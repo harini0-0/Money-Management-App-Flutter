@@ -35,13 +35,15 @@ class _EditCategoryState extends State<EditCategory> {
             Text("Edit Category Details", style: kdropDownTextStyle.copyWith(decoration: TextDecoration.underline),),
             SizedBox(height: 80,),
             TextField(
+              style: TextStyle(color: Colors.white, fontSize: 20),
               onChanged: (value){categoryTitle = value;},
               decoration: kTextFieldDecoration.copyWith(hintText: 'Edit Category Name',),
             ),
             SizedBox(height: 20,),
             FlatButton(
                   onPressed: (){
-                    Provider.of<CardData>(context, listen: false).editToList("$categoryTitle", (widget.cat == "Expense"? true : false), widget.position, widget.prevName);
+                    print("${widget.cat}");
+                    Provider.of<CardData>(context, listen: false).editToList("$categoryTitle", ( widget.cat== "Expense"? true : false), widget.position, widget.prevName);
                     Navigator.pop(context);
                     },
                   shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
