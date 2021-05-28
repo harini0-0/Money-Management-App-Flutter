@@ -15,40 +15,6 @@ class CardData extends ChangeNotifier {
   double get counter => totalAmount;
   double get expCounter => totalExpense;
   double get inmCounter => totalIncome;
-//  void refreshAmount({double num=0.0,context})async{
-//    print("refreshed amt");
-//    var boxTrans = Hive.box("TotalAmount");
-//    double checker= totalExpense-totalIncome;
-//    if(checker>0 && num<checker)
-//      return showDialog<void>(
-//      context: context,
-//      barrierDismissible: false, // user must tap button!
-//      builder: (BuildContext context) {
-//        return AlertDialog(
-//          title: const Text('Balance insufficient'),
-//          content: SingleChildScrollView(
-//            child: ListBody(
-//              children: const <Widget>[
-//                Text('Update not possible. Please try again with sufficient Balance'),
-//              ],
-//            ),
-//          ),
-//          actions: <Widget>[
-//            TextButton(
-//              child: const Text('Ok'),
-//              onPressed: () {
-//                Navigator.of(context).pop();
-//              },
-//            ),
-//          ],
-//        );
-//      },
-//    );
-//    if(num!=0)
-//      boxTrans.put("Amount",num);
-//
-//    //refresh();
-//  }
   void refresh({double num=0.0}){
     print("refreshed");
     var boxTrans = Hive.box("TotalAmount");
@@ -70,13 +36,7 @@ class CardData extends ChangeNotifier {
         print("inc -$income");
       }
     }
-//    if(expense<0)
-//      expense*=-1;
-//    if(income<0)
-//      income*=-1;
-    //total = expense-income;
-//    if(total<0)
-//      total*=-1;
+
     totalAmount+=total;
     totalExpense=expense;
     totalIncome=income;
@@ -203,39 +163,3 @@ class CardData extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-
-//dirty code
-//deduction func
-//    print("deduction happening");
-//    print("before deduction amt of categ: ${boxCat.get(item.categoryName).amount}");
-//double nowamt =boxCat.get(item.categoryName).amount;
-//    nowamt -=item.amount;
-//    int qty = boxCat.get(item.categoryName).quantity -1 ;
-//    boxCat.put(item.categoryName, CategoryItem(transactionType: item.transactionType, categoryName: item.categoryName, amount: nowamt, quantity: qty));
-//    boxCat.get(item.categoryName).amount -= item.amount;
-//    boxCat.get(item.categoryName).quantity -= 1;
-//print("after deduction amt of categ: ${boxCat.get(item.categoryName).amount}");
-
-//editToList
-//    var boxTrans = Hive.box(catBoxName);
-//    var boxCat = Hive.box(itemBoxName);
-//    CategoryItem item = boxTrans.get(previousName);
-//    CardItemModel adder = CardItemModel(categoryName, Icons.dashboard_customize, 0, 0);
-//    item.categoryName=categoryName;
-//    item.save();
-//    for(int i=0;i<boxCat.length;i++){
-////      CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Expense");
-////      boxTrans.put(categoryName, item2);
-////      boxTrans.delete(previousName);
-//      if(position!=null)
-//        cardsList[position]=adder;
-//      notifyListeners();
-//
-//    if {
-//      CategoryItem item2 = CategoryItem(categoryName: categoryName, transactionType: "Incomes");
-//      boxTrans.put(categoryName, item2);
-//      incomeList[position]=adder;
-//      boxTrans.delete(previousName);
-//      notifyListeners();
-//    }
