@@ -15,11 +15,44 @@ class CardData extends ChangeNotifier {
   double get counter => totalAmount;
   double get expCounter => totalExpense;
   double get inmCounter => totalIncome;
-  void refresh(){
+//  void refreshAmount({double num=0.0,context})async{
+//    print("refreshed amt");
+//    var boxTrans = Hive.box("TotalAmount");
+//    double checker= totalExpense-totalIncome;
+//    if(checker>0 && num<checker)
+//      return showDialog<void>(
+//      context: context,
+//      barrierDismissible: false, // user must tap button!
+//      builder: (BuildContext context) {
+//        return AlertDialog(
+//          title: const Text('Balance insufficient'),
+//          content: SingleChildScrollView(
+//            child: ListBody(
+//              children: const <Widget>[
+//                Text('Update not possible. Please try again with sufficient Balance'),
+//              ],
+//            ),
+//          ),
+//          actions: <Widget>[
+//            TextButton(
+//              child: const Text('Ok'),
+//              onPressed: () {
+//                Navigator.of(context).pop();
+//              },
+//            ),
+//          ],
+//        );
+//      },
+//    );
+//    if(num!=0)
+//      boxTrans.put("Amount",num);
+//
+//    //refresh();
+//  }
+  void refresh({double num=0.0}){
     print("refreshed");
     var boxTrans = Hive.box("TotalAmount");
     var boxCat = Hive.box(catBoxName);
-    //boxTrans.put("Amount",25000.0);
     totalAmount=boxTrans.get("Amount");
     double total=0;
     double expense=0;
@@ -29,16 +62,27 @@ class CardData extends ChangeNotifier {
       if(item2.transactionType=="Expense") {
         total -= item2.amount;
         expense+= item2.amount;
+        print("exp-$expense");
       }
       else{
         total+=item2.amount;
         income+=item2.amount;
+        print("inc -$income");
       }
     }
+    if(expense<0)
+      expense*=-1;
+    if(income<0)
+      income*=-1;
+    total = expense-income;
+    if(total<0)
+      total*=-1;
     totalAmount+=total;
     totalExpense=expense;
     totalIncome=income;
+    print("$total");
     //getAllData();
+    //boxTrans.put("Amount",25000.0);
     displayData();
   }
   void getAllData(){
@@ -50,13 +94,13 @@ class CardData extends ChangeNotifier {
       Item item = boxTrans.getAt(i);
       int date =(item.dateTime.month*10000)+ item.dateTime.year;
       if(item.transactionType=="Expense") {
-        print("this amt :$date- ${item.dateTime.month}");
+        //print("this amt :$date- ${item.dateTime.month}");
         double value = chart1[date] ;
         if(value!=null)
           chart1[date] = (item.amount)+value;
         else
           chart1[date] = (item.amount);
-      print(chart1);
+      //print(chart1);
       }
       else{
         double value = chart2[date] ;
@@ -72,13 +116,13 @@ class CardData extends ChangeNotifier {
 
     for(int i=0;i<boxTrans.length;i++){
       CategoryItem item2 = boxTrans.getAt(i);
-      print("${item2.transactionType}-${item2.categoryName}-${item2.amount}-${item2.quantity}");
+      //print("${item2.transactionType}-${item2.categoryName}-${item2.amount}-${item2.quantity}");
     }
     if(Hive.isBoxOpen(itemBoxName)){
       var boxCat = Hive.box(itemBoxName);
       for(int i=0;i<boxCat.length;i++){
         Item item2 =boxCat.getAt(i);
-        print("${item2.categoryName}-${item2.transactionType}-${item2.transName}-${item2.amount}");
+        //print("${item2.categoryName}-${item2.transactionType}-${item2.transName}-${item2.amount}");
       }
     }
   }
@@ -124,6 +168,8 @@ class CardData extends ChangeNotifier {
     var boxTrans = Hive.box(itemBoxName);
     var boxCat = Hive.box(catBoxName);
     CategoryItem item2 =boxCat.get(item.categoryName);
+    if(totalAmount<item.amount)
+
     item2.amount += item.amount;
     item2.quantity += 1;
     boxTrans.put(item.transName, item);
@@ -133,7 +179,7 @@ class CardData extends ChangeNotifier {
   }
   void addToTransList(Item item){
     transList.add(item);
-    print("Translist refresh action: ${item.amount}");
+    //print("Translist refresh action: ${item.amount}");
   }
   void deduction(Item item){
     var boxCat = Hive.box(catBoxName);

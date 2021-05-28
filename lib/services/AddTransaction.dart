@@ -14,7 +14,7 @@ class AddTransaction extends StatefulWidget {
 
 class _AddTransactionState extends State<AddTransaction> with TickerProviderStateMixin{
   String transTitle;
-  double transAmount=0;
+  double transAmount=0.0;
   DateTime transDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
@@ -69,15 +69,43 @@ class _AddTransactionState extends State<AddTransaction> with TickerProviderStat
             SizedBox(height: 25,),
             FlatButton(
               onPressed: (){
-                Provider.of<CardData>(context, listen: false).addNewTransaction(Item(
-                    transactionType: widget.transactionType,
-                    categoryName: widget.categoryName,
-                    amount: transAmount,
-                    dateTime: transDate,
-                    transName: transTitle,
-                  ));
-                Provider.of<CardData>(context, listen: false).getAllData();
-                Navigator.pop(context);
+                if(Provider.of<CardData>(context, listen: false).counter < transAmount)
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Balance insufficient'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: const <Widget>[
+                              Text('Transaction not possible. Please update your Balance'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                else
+                  {
+                    Provider.of<CardData>(context, listen: false).addNewTransaction(Item(
+                      transactionType: widget.transactionType,
+                      categoryName: widget.categoryName,
+                      amount: transAmount,
+                      dateTime: transDate,
+                      transName: transTitle,
+                    ));
+                    Provider.of<CardData>(context, listen: false).getAllData();
+                    Navigator.pop(context);
+                  }
               },
               color: Colors.grey,
               //style: ButtonStyle(side: BorderSide(width: 16.0, color: Colors.lightBlue.shade50),
