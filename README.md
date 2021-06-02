@@ -38,13 +38,6 @@ https://user-images.githubusercontent.com/66105380/120023172-0e2dfc00-c00b-11eb-
 - Smooth UI using Flutter & Dart
 - Flutter-Hive for Backend & Provider for StateManagement
 
-## List of Non-Implemented Features
-- User input for Balance in Cardholder
-- Login/SignUp Page
-
-## List of Known Bugs
-- Error while editing the category name with many items
-
 ## References Used
 - https://stackoverflow.com
 - https://pub.dev/packages
